@@ -1,4 +1,4 @@
-" Vim additional ftplugin: tag-php - tag-user plugin for PHP
+" Vim additional ftplugin: php - tag-user plugin for PHP
 " Version: 0.0.0
 " Copyright (C) 2018 Kana Natsuno <https://whileimautomaton.net/>
 " License: MIT license  {{{
