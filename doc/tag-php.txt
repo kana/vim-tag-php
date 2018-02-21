@@ -50,6 +50,7 @@ INTRODUCTION					*tag-php-introduction*
 Requirements:
 - Vim 8.0 or later
 - https://github.com/kana/vim-tag-user
+- https://github.com/universal-ctags/ctags to generate |tags| with extra info
 
 Latest version:
 https://github.com/kana/vim-tag-php
