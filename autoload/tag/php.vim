@@ -31,7 +31,7 @@ function! tag#php#guess()
 
   let tags = taglist(expand('<cword>'), expand('%'))
   for tag in tags
-    if has_key(tag, 'class') && tag['class'] ==# class_name
+    if has_key(tag, 'class') && tag.class ==# class_name
       return [index(tags, tag) + 1, 0]
     endif
   endfor
