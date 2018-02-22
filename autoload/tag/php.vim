@@ -24,7 +24,7 @@
 " Interface  "{{{1
 
 function! tag#php#guess()
-  let class_name = s:GuessClassName()
+  let class_name = s:guess_class_name()
   if class_name == ''
     return [0, 0]
   endif
@@ -41,20 +41,20 @@ endfunction
 
 " Utilities  "{{{1
 
-function! s:GuessClassName()
+function! s:guess_class_name()
   let cursor_pos = getpos('.')
-  let class_name = s:_GuessClassName()
+  let class_name = s:_guess_class_name()
   call setpos('.', cursor_pos)
   return class_name
 endfunction
 
-function! s:_GuessClassName()
+function! s:_guess_class_name()
   let line = getline('.')
-  let prefix_end_index = s:_GetCwordStartPos()[1] - 2
+  let prefix_end_index = s:_get_cword_start_pos()[1] - 2
   let prefix = prefix_end_index >= 0 ? line[:prefix_end_index] : ''
 
   if prefix =~# '\<self::$' || prefix =~# '$this->$'
-    return s:_GetCurrentClassName()
+    return s:_get_current_class_name()
   elseif prefix =~# '\<\k\+::$'
     return matchstr(prefix, '\<\zs\k\+\ze::$')
   else
@@ -62,7 +62,7 @@ function! s:_GuessClassName()
   endif
 endfunction
 
-function! s:_GetCwordStartPos()
+function! s:_get_cword_start_pos()
   let cword = expand('<cword>')
   let cword_pattern = '\V' . escape(cword, '\')
   let cword_end_pos = searchpos(cword_pattern, 'ceW', line('.'))
@@ -70,7 +70,7 @@ function! s:_GetCwordStartPos()
   return cword_start_pos
 endfunction
 
-function! s:_GetCurrentClassName()
+function! s:_get_current_class_name()
   normal! 999[{
   if search('\<class\>', 'bW') == 0
     return ''
