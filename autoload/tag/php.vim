@@ -84,12 +84,14 @@ function! s:_parse_context()
   let prefix = line[:cword_start_col - 2]
   let suffix = line[cword_end_col:]
 
-  if prefix =~# '\v(\:\:|\-\>)$'
-    " prefix seems to be a class name, and cword seems to be a method name.
-    return 0
-  elseif suffix =~# '\v^(\:\:|\-\>)'
-    " cword seems to be a class name, and suffix seems to be a method name.
-    return 0
+  if prefix =~# '\<self::$' || prefix =~# '$this->$'
+    return [s:_get_current_class_name(), cword]
+  elseif prefix =~# '\<\k\+::$'
+    return [matchstr(prefix, '\<\k\+\ze::$'), cword]
+  elseif cword ==# 'self' && suffix =~# '^::' || cword ==# 'this' && suffix =~# '^->'
+    return [s:_get_current_class_name(), suffix[2:]]
+  elseif suffix =~# '^::\k\+'
+    return [cword, matchstr(suffix, '^::\zs\k\+')]
   else
     " This context is not recognizable.
     return 0
