@@ -44,7 +44,7 @@ describe '<C-]>'
     end
 
     it 'jumps to the method of a proper class even if the cursor is at class'
-      TODO
+      call s:test(['t/fixtures/ccc.php',  8,  9], ['t/fixtures/bbb.php', 5, 1])
     end
   end
 end
