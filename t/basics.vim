@@ -46,8 +46,22 @@ describe '<C-]>'
       call s:test(['t/fixtures/ccc.php', 11, 16], ['t/fixtures/ccc.php', 5, 1])
     end
 
-    it 'jumps to the method of a proper class even if the cursor is at class'
+    it 'jumps to a proper method even if the cursor is at non-method part'
+      " At class name
       call s:test(['t/fixtures/ccc.php',  8,  9], ['t/fixtures/bbb.php', 5, 1])
+
+      " At ::
+      call s:test(['t/fixtures/ccc.php',  8, 12], ['t/fixtures/bbb.php', 5, 1])
+
+      " At self
+      call s:test(['t/fixtures/ccc.php', 10, 12], ['t/fixtures/ccc.php', 5, 1])
+
+      " At $this
+      call s:test(['t/fixtures/ccc.php', 11,  9], ['t/fixtures/ccc.php', 5, 1])
+      call s:test(['t/fixtures/ccc.php', 11, 12], ['t/fixtures/ccc.php', 5, 1])
+
+      " At -> of $this->
+      call s:test(['t/fixtures/ccc.php', 11, 15], ['t/fixtures/ccc.php', 5, 1])
     end
   end
 end
