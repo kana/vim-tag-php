@@ -88,7 +88,7 @@ function! s:_parse_context()
   elseif prefix =~# '\<\k\+::$'
     return [matchstr(prefix, '\<\k\+\ze::$'), cword]
   elseif cword ==# 'self' && suffix =~# '^::' || cword ==# 'this' && suffix =~# '^->'
-    return [s:_get_current_class_name(), suffix[2:]]
+    return [s:_get_current_class_name(), matchstr(suffix, '^\(::\|->\)\zs\k\+')]
   elseif suffix =~# '^::\k\+'
     return [cword, matchstr(suffix, '^::\zs\k\+')]
   else
