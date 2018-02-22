@@ -24,12 +24,13 @@
 " Interface  "{{{1
 
 function! tag#php#guess()
-  let class_name = s:guess_class_name()
-  if class_name == ''
+  let context = s:parse_context()
+  if context is 0
     return [0, 0]
   endif
+  let [class_name, method_name] = context
 
-  let tags = taglist(expand('<cword>'), expand('%'))
+  let tags = taglist(method_name, expand('%'))
   for tag in tags
     if has_key(tag, 'class') && tag.class ==# class_name
       return [index(tags, tag) + 1, 0]
@@ -40,6 +41,60 @@ function! tag#php#guess()
 endfunction
 
 " Utilities  "{{{1
+
+function! s:parse_context()
+  let cursor_pos = getpos('.')
+  let result = s:_parse_context()
+  call setpos('.', cursor_pos)
+  return result
+endfunction
+
+function! s:_parse_context()
+  " ----------------------------------------------------------------------
+  " | Situation           | prefix      | <cword>     | suffix           |
+  " |---------------------|-------------|-------------|------------------|
+  " | Foo::doSomething(); |             | Foo         | ::doSomething(); |
+  " |---^-----------------|-------------|-------------|------------------|
+  " | Foo::doSomething(); | Foo::       | doSomething | ();              |
+  " |----^----------------|-------------|-------------|------------------|
+  " | Foo::doSomething(); | Foo::       | doSomething | ();              |
+  " |-----^---------------|-------------|-------------|------------------|
+  " | Foo::doSomething(); | Foo::       | doSomething | ();              |
+  " |------^--------------|-------------|-------------|------------------|
+  " | Foo::doSomething(); | doSomething | ();         |                  |
+  " ------------------^---------------------------------------------------
+  "
+  " (`^` denotes the cursor position.)
+  "
+  " So that cword_end_col must be searched first,
+  " and this search must move the cursor.
+
+  let line = getline('.')
+  let cword = expand('<cword>')
+
+  if cword !~# '^\k\+$'
+    " Do nothing for non-identifier cword.
+    return 0
+  endif
+
+  let cword_pattern = '\V' . escape(cword, '\')
+  let [_, cword_end_col] = searchpos(cword_pattern, 'ceW', line('.'))
+  let [_, cword_start_col] = searchpos(cword_pattern, 'bcW', line('.'))
+
+  let prefix = line[:cword_start_col - 2]
+  let suffix = line[cword_end_col:]
+
+  if prefix =~# '\v(\:\:|\-\>)$'
+    " prefix seems to be a class name, and cword seems to be a method name.
+    return 0
+  elseif suffix =~# '\v^(\:\:|\-\>)'
+    " cword seems to be a class name, and suffix seems to be a method name.
+    return 0
+  else
+    " This context is not recognizable.
+    return 0
+  endif
+endfunction
 
 function! s:guess_class_name()
   let cursor_pos = getpos('.')
