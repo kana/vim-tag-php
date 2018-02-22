@@ -33,7 +33,7 @@ function! tag#php#guess()
   let tags = taglist(method_name, expand('%'))
   for tag in tags
     if has_key(tag, 'class') && tag.class ==# class_name
-      return [index(tags, tag) + 1, 0]
+      return [index(tags, tag) + 1, method_name]
     endif
   endfor
 
