@@ -98,35 +98,6 @@ function! s:_parse_context()
   endif
 endfunction
 
-function! s:guess_class_name()
-  let cursor_pos = getpos('.')
-  let class_name = s:_guess_class_name()
-  call setpos('.', cursor_pos)
-  return class_name
-endfunction
-
-function! s:_guess_class_name()
-  let line = getline('.')
-  let prefix_end_index = s:_get_cword_start_pos()[1] - 2
-  let prefix = prefix_end_index >= 0 ? line[:prefix_end_index] : ''
-
-  if prefix =~# '\<self::$' || prefix =~# '$this->$'
-    return s:_get_current_class_name()
-  elseif prefix =~# '\<\k\+::$'
-    return matchstr(prefix, '\<\zs\k\+\ze::$')
-  else
-    return ''
-  endif
-endfunction
-
-function! s:_get_cword_start_pos()
-  let cword = expand('<cword>')
-  let cword_pattern = '\V' . escape(cword, '\')
-  let cword_end_pos = searchpos(cword_pattern, 'ceW', line('.'))
-  let cword_start_pos = searchpos(cword_pattern, 'bcW', line('.'))
-  return cword_start_pos
-endfunction
-
 function! s:_get_current_class_name()
   normal! 999[{
   if search('\<class\>', 'bW') == 0
