@@ -15,7 +15,7 @@ function! s:test(from, to)
   endif
 
   execute 'normal' "\<C-]>"
-  Expect [expand('%'), line('.'), col('.')] ==# a:to
+  Expect [a:from, '==>', [expand('%'), line('.'), col('.')]] ==# [a:from, '==>', a:to]
 endfunction
 
 describe '<C-]>'
