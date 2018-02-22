@@ -50,28 +50,27 @@ function! s:parse_context()
 endfunction
 
 function! s:_parse_context()
-  " ----------------------------------------------------------------------
-  " | Situation           | prefix      | <cword>     | suffix           |
-  " |---------------------|-------------|-------------|------------------|
-  " | Foo::doSomething(); |             | Foo         | ::doSomething(); |
-  " |---^-----------------|-------------|-------------|------------------|
-  " | Foo::doSomething(); | Foo::       | doSomething | ();              |
-  " |----^----------------|-------------|-------------|------------------|
-  " | Foo::doSomething(); | Foo::       | doSomething | ();              |
-  " |-----^---------------|-------------|-------------|------------------|
-  " | Foo::doSomething(); | Foo::       | doSomething | ();              |
-  " |------^--------------|-------------|-------------|------------------|
-  " | Foo::doSomething(); | doSomething | ();         |                  |
-  " ------------------^---------------------------------------------------
+  " --------------------------------------------------------------------------
+  " | # | Situation           | prefix      | <cword>     | suffix           |
+  " |---|---------------------|-------------|-------------|------------------|
+  " | 1 | Foo::doSomething(); |             | Foo         | ::doSomething(); |
+  " |---|---^-----------------|-------------|-------------|------------------|
+  " | 2 | Foo::doSomething(); | Foo::       | doSomething | ();              |
+  " |---|----^----------------|-------------|-------------|------------------|
+  " | 3 | Foo::doSomething(); | Foo::       | doSomething | ();              |
+  " |---|-----^---------------|-------------|-------------|------------------|
+  " | 4 | Foo::doSomething(); | Foo::       | doSomething | ();              |
+  " |---|------^--------------|-------------|-------------|------------------|
+  " | 5 | Foo::doSomething(); | doSomething | ();         |                  |
+  " ----------------------^---------------------------------------------------
   "
   " (`^` denotes the cursor position.)
   "
-  " So that cword_end_col must be searched first,
+  " Because of #2 and #3, cword_end_col must be searched first,
   " and this search must move the cursor.
 
   let line = getline('.')
   let cword = expand('<cword>')
-
   if cword !~# '^\k\+$'
     " Do nothing for non-identifier cword.
     return 0
