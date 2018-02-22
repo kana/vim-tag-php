@@ -8,5 +8,6 @@ class Aaa
         Bbb::doSomething();
         Ccc::doSomething();
         self::doSomething();
+        $this->doSomething();
     }
 }

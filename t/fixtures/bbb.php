@@ -8,5 +8,6 @@ class Bbb
         Bbb::doSomething();
         Ccc::doSomething();
         self::doSomething();
+        $this->doSomething();
     }
 }

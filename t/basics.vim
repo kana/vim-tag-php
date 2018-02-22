@@ -31,16 +31,19 @@ describe '<C-]>'
       call s:test(['t/fixtures/aaa.php',  8, 14], ['t/fixtures/bbb.php', 5, 1])
       call s:test(['t/fixtures/aaa.php',  9, 14], ['t/fixtures/ccc.php', 5, 1])
       call s:test(['t/fixtures/aaa.php', 10, 15], ['t/fixtures/aaa.php', 5, 1])
+      call s:test(['t/fixtures/aaa.php', 11, 16], ['t/fixtures/aaa.php', 5, 1])
 
       call s:test(['t/fixtures/bbb.php',  7, 14], ['t/fixtures/aaa.php', 5, 1])
       call s:test(['t/fixtures/bbb.php',  8, 14], ['t/fixtures/bbb.php', 5, 1])
       call s:test(['t/fixtures/bbb.php',  9, 14], ['t/fixtures/ccc.php', 5, 1])
       call s:test(['t/fixtures/bbb.php', 10, 15], ['t/fixtures/bbb.php', 5, 1])
+      call s:test(['t/fixtures/bbb.php', 11, 16], ['t/fixtures/bbb.php', 5, 1])
 
       call s:test(['t/fixtures/ccc.php',  7, 14], ['t/fixtures/aaa.php', 5, 1])
       call s:test(['t/fixtures/ccc.php',  8, 14], ['t/fixtures/bbb.php', 5, 1])
       call s:test(['t/fixtures/ccc.php',  9, 14], ['t/fixtures/ccc.php', 5, 1])
       call s:test(['t/fixtures/ccc.php', 10, 15], ['t/fixtures/ccc.php', 5, 1])
+      call s:test(['t/fixtures/ccc.php', 11, 16], ['t/fixtures/ccc.php', 5, 1])
     end
 
     it 'jumps to the method of a proper class even if the cursor is at class'
