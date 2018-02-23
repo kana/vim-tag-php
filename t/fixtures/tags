@@ -11,3 +11,4 @@ Ccc	ccc.php	/^class Ccc$/;"	c
 doSomething	aaa.php	/^    public static function doSomething()$/;"	f	class:Aaa
 doSomething	bbb.php	/^    public static function doSomething()$/;"	f	class:Bbb
 doSomething	ccc.php	/^    public static function doSomething()$/;"	f	class:Ccc
+php_helps_programmers	ccc.php	/^    public static function php_helps_programmers()$/;"	f	class:Ccc
