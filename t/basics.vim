@@ -63,5 +63,17 @@ describe '<C-]>'
       " At -> of $this->
       call s:test(['t/fixtures/ccc.php', 11, 15], ['t/fixtures/ccc.php', 5, 1])
     end
+
+    it 'does not jump if the definition is not found'
+      let v:errmsg = ''
+      call s:test(['t/fixtures/ccc.php', 14, 19], ['t/fixtures/ccc.php', 14, 19])
+      Expect v:errmsg ==# 'E426: tag not found: function'
+      Expect tag#php#guess() ==# [0, 0]
+
+      let v:errmsg = ''
+      call s:test(['t/fixtures/ccc.php', 20, 13], ['t/fixtures/ccc.php', 20, 13])
+      Expect v:errmsg ==# 'E426: tag not found: php'
+      Expect tag#php#guess() ==# [0, 0]
+    end
   end
 end
