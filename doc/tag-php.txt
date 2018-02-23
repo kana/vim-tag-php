@@ -71,6 +71,9 @@ BUGS						*tag-php-bugs*
 ==============================================================================
 CHANGELOG					*tag-php-changelog*
 
+0.0.1	2018-02-23T22:31:10+09:00		*tag-php-changelog-0.0.1*
+	- Fix an edge case which causes parse error.
+
 0.0.0	2018-02-21T23:55:42+09:00		*tag-php-changelog-0.0.0*
 	- Derived from https://github.com/kana/vim-better-tag-jump
 
