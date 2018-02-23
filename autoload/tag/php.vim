@@ -30,7 +30,7 @@ function! tag#php#guess()
   endif
   let [class_name, method_name] = context
 
-  let tags = taglist(method_name, expand('%'))
+  let tags = tag#user#list(method_name)
   for tag in tags
     if has_key(tag, 'class') && tag.class ==# class_name
       return [index(tags, tag) + 1, method_name]
